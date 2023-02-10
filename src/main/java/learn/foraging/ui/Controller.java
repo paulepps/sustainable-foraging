@@ -12,6 +12,7 @@ import learn.foraging.models.Item;
 
 import java.time.LocalDate;
 import java.util.List;
+import learn.foraging.models.reports.CollectedItemWeight;
 
 public class Controller {
 
@@ -59,8 +60,7 @@ public class Controller {
                     addItem();
                     break;
                 case REPORT_KG_PER_ITEM:
-                    view.displayStatus(false, "NOT IMPLEMENTED");
-                    view.enterToContinue();
+                    viewReportKgPerItem();
                     break;
                 case REPORT_CATEGORY_VALUE:
                     view.displayStatus(false, "NOT IMPLEMENTED");
@@ -71,6 +71,15 @@ public class Controller {
                     break;
             }
         } while (option != MainMenuOption.EXIT);
+    }
+
+    private void viewReportKgPerItem() {
+        view.displayHeader(MainMenuOption.REPORT_KG_PER_ITEM.getMessage());
+        LocalDate date = view.getForageDate();
+        List<CollectedItemWeight> collectedItemWeights =
+            forageService.findCollectedItemWeights(date);
+        view.displayCollectedItemWeights(collectedItemWeights);
+        view.enterToContinue();
     }
 
     // top level menu

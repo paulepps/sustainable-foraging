@@ -4,6 +4,7 @@ import learn.foraging.models.Forage;
 
 import java.time.LocalDate;
 import java.util.List;
+import learn.foraging.models.reports.CollectedItemWeight;
 
 public interface ForageRepository {
     List<Forage> findByDate(LocalDate date);

@@ -1,5 +1,9 @@
 package learn.foraging.data;
 
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.stream.Collectors;
 import learn.foraging.models.Forage;
 import learn.foraging.models.Forager;
 import learn.foraging.models.Item;
@@ -9,6 +13,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import learn.foraging.models.reports.CollectedItemWeight;
 
 public class ForageFileRepository implements ForageRepository {
 
@@ -18,6 +23,7 @@ public class ForageFileRepository implements ForageRepository {
     public ForageFileRepository(String directory) {
         this.directory = directory;
     }
+
 
     @Override
     public List<Forage> findByDate(LocalDate date) {
@@ -36,6 +42,7 @@ public class ForageFileRepository implements ForageRepository {
         } catch (IOException ex) {
             // don't throw on read
         }
+
         return result;
     }
 

@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import learn.foraging.models.reports.CollectedItemWeight;
 
 public class View {
 
@@ -191,6 +192,17 @@ public class View {
 
         for (Item item : items) {
             io.printf("%s: %s, %s, %.2f $/kg%n", item.getId(), item.getName(), item.getCategory(), item.getDollarPerKilogram());
+        }
+    }
+
+    public void displayCollectedItemWeights(List<CollectedItemWeight> collectedItemWeights) {
+        if (collectedItemWeights == null || collectedItemWeights.isEmpty()) {
+            io.println("No forages found");
+            return;
+        }
+        for (CollectedItemWeight collectedItemWeight : collectedItemWeights) {
+            io.printf("%s: %.2f kg%n",
+                collectedItemWeight.getItemName(), collectedItemWeight.getKilograms());
         }
     }
 }

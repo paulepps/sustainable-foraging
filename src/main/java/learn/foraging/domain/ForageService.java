@@ -1,5 +1,6 @@
 package learn.foraging.domain;
 
+import java.util.Comparator;
 import learn.foraging.data.DataException;
 import learn.foraging.data.ForageRepository;
 import learn.foraging.data.ForagerRepository;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
+import learn.foraging.models.reports.CollectedItemWeight;
 
 public class ForageService {
 
@@ -144,5 +146,25 @@ public class ForageService {
         if (itemRepository.findById(forage.getItem().getId()) == null) {
             result.addErrorMessage("Item does not exist.");
         }
+    }
+
+    public List<CollectedItemWeight> findCollectedItemWeights(LocalDate date) {
+        return findByDate(date).stream()
+            .collect(Collectors.groupingBy(
+                f -> f.getItem().getName(),
+                Collectors.summarizingDouble(Forage::getKilograms)
+            ))
+            .entrySet().stream()
+            .sorted(Comparator.comparing(Map.Entry::getKey))
+            .map(es -> new CollectedItemWeight() {
+                public String getItemName() {
+                    return es.getKey();
+                }
+                public double getKilograms() {
+                    return es.getValue().getSum();
+                }
+            })
+            .collect(Collectors.toList());
+
     }
 }
